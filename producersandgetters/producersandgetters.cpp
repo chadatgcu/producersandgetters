@@ -2,20 +2,49 @@
 //
 
 #include "pch.h"
+#include <vector>
 #include <iostream>
+#include <stdio.h>
+#include <pthread.h>
+
+using namespace std;
+int theProduct;
+vector<int> Consumer;
 
 int main()
 {
-    std::cout << "Hello World!\n"; 
+    std::cout << "Starting!\n"; 
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
+void producer() {
+	int i;
+	while (1) {
+		i = produce();
+		put(i);
+	}
+}
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+void consumer() {
+	int i;
+	while (1) {
+		i = get();
+		consume(i);
+	}
+}
+
+void put(int i) {
+	Consumer.push_back(i);
+}
+
+int get() {
+	return Consumer.pop_back();
+}
+
+int produce() {
+	return theProduct++;
+}
+
+void consume(int i) {
+	std::cout << i << "\n";
+}
+
